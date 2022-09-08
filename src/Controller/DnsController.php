@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Util;
+use App\Util\Dns;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,7 +13,7 @@ class DnsController extends AbstractController
     public function index(): Response
     {
         $host = 'www.google.com';
-        $ip = Util\getA($host);
+        $ip = Dns::getA($host);
 
         return $this->render('dns/index.html.twig', [
             'controller_name' => 'DnsController',
