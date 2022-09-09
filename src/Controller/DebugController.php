@@ -42,4 +42,6 @@ class DebugController extends AbstractController
 
         return $this->render('debug/index.html.twig', ['contents' => $contents]);
     }
+
+    // TODO mirror and request
 }
