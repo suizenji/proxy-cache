@@ -7,18 +7,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class DnsController extends AbstractController
+#[Route('/_debug', name: 'app_debug_')]
+class DebugController extends AbstractController
 {
-    #[Route('/dns', name: 'app_dns')]
-    public function index(): Response
+    #[Route('/dns', name: 'dns')]
+    public function dns(): Response
     {
         $host = 'www.google.com';
         $ip = Dns::getA($host);
 
-        return $this->render('dns/index.html.twig', [
-            'controller_name' => 'DnsController',
+        $contents = [
             'host' => $host,
             'ip' => $ip,
-        ]);
+        ];
+
+        return $this->render('debug/index.html.twig', ['contents' => $contents]);
     }
 }
