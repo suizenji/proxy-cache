@@ -59,8 +59,8 @@ class RouterListener implements EventSubscriberInterface
         try {
             $this->matcher->match($request->getPathInfo());
         } catch (\RuntimeException $e) {
-            $parameters['_route'] = 'app_dns';
-            $parameters['_controller'] = 'App\Controller\DnsController::index';
+            $parameters['_route'] = 'app_proxy';
+            $parameters['_controller'] = 'App\Controller\ProxyController::index';
             $request->attributes->add($parameters);
 
             $this->logger->info('setted request attributes');
