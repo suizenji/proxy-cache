@@ -54,8 +54,14 @@ class Dns {
         if (count($answers)) {
             foreach ($response->getAnswerRecords() as $record) {
                 /** @var \LibDNS\Records\Resource $record */
-                //            echo "    " . $record->getData() . "\n";
-                return (string) $record->getData();
+#                echo "    " . $record->getData() . "\n";
+
+                $data = (string) $record->getData();
+                if (1 !== preg_match('/^([0-9.]+)$/', $data, $match)) {
+                    continue;
+                }
+
+                return $match[1];
             }
         }
 
