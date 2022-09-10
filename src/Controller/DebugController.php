@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use function Symfony\Component\String\u;
 use App\Util\Dns;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -9,8 +10,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-use function Symfony\Component\String\u;
 
 #[Route('/_debug', name: 'app_debug_')]
 class DebugController extends AbstractController
