@@ -30,12 +30,19 @@ class DebugController extends AbstractController
     #[Route('/net', name: 'net')]
     public function net(Request $request): Response
     {
+        $contents = [];
+
+        $headers = $request->headers->all();
+        foreach ($headers as $key => $value) {
+            $contents[$key] = $value[0];
+        }
+
         $schemeDomain = u($request->getSchemeAndHttpHost())
                     ->replaceMatches('/^(.*)(:[0-9]+)$/', function ($match) {
                         return $match[1];
                     });
 
-        $contents = [
+        $contents += [
             'scheme_domain' => $schemeDomain,
             'path' => $request->getPathInfo(),
         ];
