@@ -80,4 +80,30 @@ class DebugController extends AbstractController
 
         return new Response($response->getContent());
     }
+
+    #[Route('/pro', name: 'pro')]
+    public function pro(Request $request, HttpClientInterface $client): Response
+    {
+        $method = $request->getMethod();
+
+        $host = 'www.apple.com:443';
+        $domain = (string) u($host)->replaceMatches('/^(.*)(:[0-9]+)$/', function ($match) {
+            return $match[1];
+        });
+
+        $scheme = 'https://';
+        $ip = Dns::getA($domain);
+        $url = $scheme . $ip;
+
+        $headers = $request->server->getHeaders();
+        $headers['HOST'] = $host;
+        $headers['Connection'] = 'close';
+
+        /** @var ResponseInterface $response */
+        $response = $client->request($method, $url, [
+            'headers' => $headers,
+        ]);
+
+        return new Response($response->getContent());
+    }
 }
