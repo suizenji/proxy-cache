@@ -13,6 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProxyController extends AbstractController
 {
+    // TODO snoop
+    // TODO cache
+    // TODO headers(encoding)
+    // TODO dockerize
     #[Route('/proxy', name: 'app_proxy')]
     public function index(Request $request, HttpClientInterface $client): Response
     {
