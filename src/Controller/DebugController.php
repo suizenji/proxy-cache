@@ -102,6 +102,7 @@ class DebugController extends AbstractController
         /** @var ResponseInterface $response */
         $response = $client->request($method, $url, [
             'headers' => $headers,
+            'verify_host' => false,
         ]);
 
         return new Response($response->getContent());
