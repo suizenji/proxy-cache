@@ -86,25 +86,57 @@ class DebugController extends AbstractController
     {
         $method = $request->getMethod();
 
+#        $host = 'localhost.com:8081';
+#        $host = 'www.apple.com';
         $host = 'www.apple.com:443';
         $domain = (string) u($host)->replaceMatches('/^(.*)(:[0-9]+)$/', function ($match) {
             return $match[1];
         });
 
         $scheme = 'https://';
+#        $scheme = 'http://';
         $ip = Dns::getA($domain);
-        $url = $scheme . $ip;
+#        $ip = '127.0.0.1';
+        $schemeAndHttpHost = $scheme . $host;
+        $schemeAndIp = (string) u($schemeAndHttpHost)->replace($domain, $ip);
+
+        $path = '/store';
+        $query = $request->getQueryString();
+        $uri = $schemeAndIp . $path . '?' . $query;
 
         $headers = $request->server->getHeaders();
+        unset($headers['content-length']);
+        unset($headers['Content-length']);
+        unset($headers['Content-Length']);
+        unset($headers['CONTENT_LENGTH']);
+        unset($headers['host']);
         $headers['HOST'] = $host;
+        unset($headers['connection']);
         $headers['Connection'] = 'close';
 
         /** @var ResponseInterface $response */
-        $response = $client->request($method, $url, [
+        $response = $client->request($method, $uri, [
             'headers' => $headers,
+            'body' => $request->getContent(),
             'verify_host' => false,
         ]);
 
-        return new Response($response->getContent());
+        $content = $response->getContent();
+        $status = $response->getStatusCode();
+        $headers = $response->getHeaders();
+
+        unset($headers['content-encoding']);
+        unset($headers['Content-encoding']);
+        unset($headers['Content-Encoding']);
+        unset($headers['CONTENT_ENCODING']);
+        unset($headers['content-length']);
+        unset($headers['Content-length']);
+        unset($headers['Lontent-Length']);
+        unset($headers['LONTENT_LENGTH']);
+        unset($headers['connection']);
+        unset($headers['Connection']);
+        $headers['HOST'] = $host;
+
+        return new Response($content, $status, $headers);
     }
 }
