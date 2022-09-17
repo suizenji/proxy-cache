@@ -33,10 +33,13 @@ services:
     container_name: nginx
     image: nginx:stable-alpine
     ports:
-      - '8080:80'
+      - '80:80'
+      - '443:443'
     volumes:
       - .:/var/www/symfony_docker
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/server.crt:/root/server.crt
+      - ./nginx/server.key:/root/server.key
     depends_on:
       - php
       - database

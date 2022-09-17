@@ -16,7 +16,6 @@ class ProxyController extends AbstractController
     // TODO snoop
     // TODO cache
     // TODO headers(encoding)
-    // TODO dockerize
     #[Route('/proxy', name: 'app_proxy')]
     public function index(Request $request, HttpClientInterface $client): Response
     {
@@ -28,9 +27,9 @@ class ProxyController extends AbstractController
         });
 
         $ip = Dns::getA($domain);
-#        $schemeAndHttpHost = $request->getSchemeAndHttpHost();
-#        $schemeAndIp = (string) u($schemeAndHttpHost)->replace($domain, $ip);
-        $schemeAndIp = $request->getScheme() . '://' . $ip;
+        $schemeAndHttpHost = $request->getSchemeAndHttpHost();
+        $schemeAndIp = (string) u($schemeAndHttpHost)->replace($domain, $ip);
+#        $schemeAndIp = $request->getScheme() . '://' . $ip;
 
         $path = $request->getPathInfo();
         $query = $request->getQueryString();
