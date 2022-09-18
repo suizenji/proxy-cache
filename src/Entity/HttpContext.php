@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\RequestContextRepository;
+use App\Repository\HttpContextRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RequestContextRepository::class)]
-class RequestContext
+#[ORM\Entity(repositoryClass: HttpContextRepository::class)]
+class HttpContext extends Http
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,14 +16,17 @@ class RequestContext
     #[ORM\Column(length: 255)]
     private ?string $tranId = null;
 
-    #[ORM\Column(length: 7)]
-    private ?string $method = null;
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $uri = null;
+    private ?string $f1 = null;
 
-    #[ORM\Column]
-    private ?float $version = null;
+    #[ORM\Column(length: 255)]
+    private ?string $f2 = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $f3 = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -45,38 +48,50 @@ class RequestContext
         return $this;
     }
 
-    public function getMethod(): ?string
+    public function getType(): ?string
     {
-        return $this->method;
+        return $this->type;
     }
 
-    public function setMethod(string $method): self
+    public function setType(string $type): self
     {
-        $this->method = $method;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getUri(): ?string
+    public function getF1(): ?string
     {
-        return $this->uri;
+        return $this->f1;
     }
 
-    public function setUri(string $uri): self
+    public function setF1(string $f1): self
     {
-        $this->uri = $uri;
+        $this->f1 = $f1;
 
         return $this;
     }
 
-    public function getVersion(): ?float
+    public function getF2(): ?string
     {
-        return $this->version;
+        return $this->f2;
     }
 
-    public function setVersion(float $version): self
+    public function setF2(string $f2): self
     {
-        $this->version = $version;
+        $this->f2 = $f2;
+
+        return $this;
+    }
+
+    public function getF3(): ?string
+    {
+        return $this->f3;
+    }
+
+    public function setF3(string $f3): self
+    {
+        $this->f3 = $f3;
 
         return $this;
     }

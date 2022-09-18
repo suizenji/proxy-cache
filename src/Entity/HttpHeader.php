@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ResponseHeaderRepository;
+use App\Repository\HttpHeaderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ResponseHeaderRepository::class)]
-class ResponseHeader
+#[ORM\Entity(repositoryClass: HttpHeaderRepository::class)]
+class HttpHeader extends Http
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,14 +16,14 @@ class ResponseHeader
     #[ORM\Column(length: 255)]
     private ?string $tranId = null;
 
-    #[ORM\Column(length: 31)]
+    #[ORM\Column(length: 255)]
+    private ?string $type = null;
+
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     private ?string $value = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
     {
@@ -38,6 +38,18 @@ class ResponseHeader
     public function setTranId(string $tranId): self
     {
         $this->tranId = $tranId;
+
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }
@@ -62,18 +74,6 @@ class ResponseHeader
     public function setValue(string $value): self
     {
         $this->value = $value;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -2,10 +2,11 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\RequestContext;
-use App\Entity\RequestHeader;
-use App\Entity\ResponseContext;
-use App\Entity\ResponseHeader;
+use App\Entity\Http;
+use App\Entity\HttpContext;
+use App\Entity\HttpHeader;
+use App\Entity\HttpBody;
+
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -15,25 +16,29 @@ class AppFixtures extends Fixture
     {
         $tranId = '123abc';
         $createdAt = new \DateTimeImmutable();
-        self::recordRequestContext($manager, $tranId, createdAt: $createdAt);
-        self::recordRequestHeaders($manager, $tranId, [
+
+        self::recordContext($manager, $tranId, Http::TYPE_SEND, 'GET', '/', 'HTTP/1.1', $createdAt);
+        self::recordHeaders($manager, $tranId, Http::TYPE_SEND, [
             'HOST' => 'localhost',
             'User-Agent' => 'Nginx',
-        ], createdAt: $createdAt);
+        ]);
+        self::recordBody($manager, $tranId, Http::TYPE_SEND);
 
-        self::recordResponseContext($manager, $tranId, createdAt: $createdAt);
-        self::recordResponseHeaders($manager, $tranId, [
+        self::recordContext($manager, $tranId, Http::TYPE_RECV, 'HTTP/1.1', '200', 'OK', $createdAt);
+        self::recordHeaders($manager, $tranId, Http::TYPE_RECV, [
             'Content-Length' => '6',
-        ], createdAt: $createdAt);
+        ]);
+        self::recordBody($manager, $tranId, Http::TYPE_RECV, 'foo');
     }
 
-    private static function recordRequestContext($manager, $tranId, $method = 'GET', $uri = '/', $version = 1.1, $createdAt = new \DateTimeImmutable())
+    private static function recordContext($manager, $tranId, $type, $f1, $f2, $f3, $createdAt)
     {
-        $entity = (new RequestContext)
+        $entity = (new HttpContext)
             ->setTranId($tranId)
-            ->setMethod($method)
-            ->setUri($uri)
-            ->setVersion($version)
+            ->setType($type)
+            ->setF1($f1)
+            ->setF2($f2)
+            ->setF3($f3)
             ->setCreatedAt($createdAt)
             ;
 
@@ -41,14 +46,14 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private static function recordRequestHeaders($manager, $tranId, $headers = [], $createdAt = new \DateTimeImmutable())
+    private static function recordHeaders($manager, $tranId, $type, $headers = [])
     {
         foreach ($headers as $name => $value) {
-            $entity = (new RequestHeader)
+            $entity = (new HttpHeader)
                     ->setTranId($tranId)
+                    ->setType($type)
                     ->setName($name)
                     ->setValue($value)
-                    ->setCreatedAt($createdAt)
                     ;
 
             $manager->persist($entity);
@@ -56,32 +61,15 @@ class AppFixtures extends Fixture
         }
     }
 
-    private static function recordResponseContext($manager, $tranId, $version = 1.1, $status = 200, $message = 'OK', $createdAt = new \DateTimeImmutable())
+    private static function recordBody($manager, $tranId, $type, $content = '')
     {
-        $entity = (new ResponseContext)
-            ->setTranId($tranId)
-            ->setVersion($version)
-            ->setStatus($status)
-            ->setMessage($message)
-            ->setCreatedAt($createdAt)
-            ;
+        $entity = (new HttpBody)
+                ->setTranId($tranId)
+                ->setType($type)
+                ->setContent($content);
+        ;
 
         $manager->persist($entity);
         $manager->flush();
-    }
-
-    private static function recordResponseHeaders($manager, $tranId, $headers = [], $createdAt = new \DateTimeImmutable())
-    {
-        foreach ($headers as $name => $value) {
-            $entity = (new ResponseHeader)
-                    ->setTranId($tranId)
-                    ->setName($name)
-                    ->setValue($value)
-                    ->setCreatedAt($createdAt)
-                    ;
-
-            $manager->persist($entity);
-            $manager->flush();
-        }
     }
 }

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\ResponseHeader;
+use App\Entity\HttpHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ResponseHeader>
+ * @extends ServiceEntityRepository<HttpHeader>
  *
- * @method ResponseHeader|null find($id, $lockMode = null, $lockVersion = null)
- * @method ResponseHeader|null findOneBy(array $criteria, array $orderBy = null)
- * @method ResponseHeader[]    findAll()
- * @method ResponseHeader[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method HttpHeader|null find($id, $lockMode = null, $lockVersion = null)
+ * @method HttpHeader|null findOneBy(array $criteria, array $orderBy = null)
+ * @method HttpHeader[]    findAll()
+ * @method HttpHeader[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ResponseHeaderRepository extends ServiceEntityRepository
+class HttpHeaderRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ResponseHeader::class);
+        parent::__construct($registry, HttpHeader::class);
     }
 
-    public function add(ResponseHeader $entity, bool $flush = false): void
+    public function add(HttpHeader $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ResponseHeaderRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(ResponseHeader $entity, bool $flush = false): void
+    public function remove(HttpHeader $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class ResponseHeaderRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return ResponseHeader[] Returns an array of ResponseHeader objects
+//     * @return HttpHeader[] Returns an array of HttpHeader objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ResponseHeaderRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?ResponseHeader
+//    public function findOneBySomeField($value): ?HttpHeader
 //    {
 //        return $this->createQueryBuilder('h')
 //            ->andWhere('h.exampleField = :val')

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\RequestHeader;
+use App\Entity\HttpContext;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<RequestHeader>
+ * @extends ServiceEntityRepository<HttpContext>
  *
- * @method RequestHeader|null find($id, $lockMode = null, $lockVersion = null)
- * @method RequestHeader|null findOneBy(array $criteria, array $orderBy = null)
- * @method RequestHeader[]    findAll()
- * @method RequestHeader[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method HttpContext|null find($id, $lockMode = null, $lockVersion = null)
+ * @method HttpContext|null findOneBy(array $criteria, array $orderBy = null)
+ * @method HttpContext[]    findAll()
+ * @method HttpContext[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RequestHeaderRepository extends ServiceEntityRepository
+class HttpContextRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RequestHeader::class);
+        parent::__construct($registry, HttpContext::class);
     }
 
-    public function add(RequestHeader $entity, bool $flush = false): void
+    public function add(HttpContext $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class RequestHeaderRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(RequestHeader $entity, bool $flush = false): void
+    public function remove(HttpContext $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class RequestHeaderRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return RequestHeader[] Returns an array of RequestHeader objects
+//     * @return HttpContext[] Returns an array of HttpContext objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class RequestHeaderRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?RequestHeader
+//    public function findOneBySomeField($value): ?HttpContext
 //    {
 //        return $this->createQueryBuilder('h')
 //            ->andWhere('h.exampleField = :val')
