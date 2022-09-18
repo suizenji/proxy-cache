@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Header;
+use App\Entity\RequestHeader;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -14,7 +14,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Header[]    findAll()
  * @method Header[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class HeaderRepository extends ServiceEntityRepository
+class RequestHeaderRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

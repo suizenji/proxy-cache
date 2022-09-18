@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\RequestRepository;
+use App\Repository\RequestHeaderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: RequestRepository::class)]
-class Request
+#[ORM\Entity(repositoryClass: RequestHeaderRepository::class)]
+class RequestHeader
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,14 +16,11 @@ class Request
     #[ORM\Column(length: 255)]
     private ?string $tranId = null;
 
-    #[ORM\Column(length: 7)]
-    private ?string $method = null;
+    #[ORM\Column(length: 31)]
+    private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $uri = null;
-
-    #[ORM\Column]
-    private ?float $version = null;
+    private ?string $value = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -45,38 +42,26 @@ class Request
         return $this;
     }
 
-    public function getMethod(): ?string
+    public function getName(): ?string
     {
-        return $this->method;
+        return $this->name;
     }
 
-    public function setMethod(string $method): self
+    public function setName(string $name): self
     {
-        $this->method = $method;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getUri(): ?string
+    public function getValue(): ?string
     {
-        return $this->uri;
+        return $this->value;
     }
 
-    public function setUri(string $uri): self
+    public function setValue(string $value): self
     {
-        $this->uri = $uri;
-
-        return $this;
-    }
-
-    public function getVersion(): ?float
-    {
-        return $this->version;
-    }
-
-    public function setVersion(float $version): self
-    {
-        $this->version = $version;
+        $this->value = $value;
 
         return $this;
     }

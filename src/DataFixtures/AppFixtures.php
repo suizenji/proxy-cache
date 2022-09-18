@@ -2,10 +2,9 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Request;
-use App\Entity\Response;
-use App\Entity\Header;
-use App\Entity\Body;
+use App\Entity\RequestContext;
+use App\Entity\RequestHeader;
+use App\Entity\ResponseContext;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -15,16 +14,17 @@ class AppFixtures extends Fixture
     {
         $tranId = '123abc';
         $createdAt = new \DateTimeImmutable();
-        self::recordRequest($manager, $tranId, createdAt: $createdAt);
-        self::recordHeaders($manager, $tranId, [
+        self::recordRequestContext($manager, $tranId, createdAt: $createdAt);
+        self::recordRequestHeaders($manager, $tranId, [
             'HOST' => 'localhost',
             'User-Agent' => 'Nginx',
         ], createdAt: $createdAt);
+
     }
 
-    private static function recordRequest($manager, $tranId, $method = 'GET', $uri = '/', $version = 1.1, $createdAt = new \DateTimeImmutable())
+    private static function recordRequestContext($manager, $tranId, $method = 'GET', $uri = '/', $version = 1.1, $createdAt = new \DateTimeImmutable())
     {
-        $entity = (new Request)
+        $entity = (new RequestContext)
             ->setTranId($tranId)
             ->setMethod($method)
             ->setUri($uri)
@@ -36,10 +36,10 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private static function recordHeaders($manager, $tranId, $headers = [], $createdAt = new \DateTimeImmutable())
+    private static function recordRequestHeaders($manager, $tranId, $headers = [], $createdAt = new \DateTimeImmutable())
     {
         foreach ($headers as $name => $value) {
-            $entity = (new Header)
+            $entity = (new RequestHeader)
                     ->setTranId($tranId)
                     ->setName($name)
                     ->setValue($value)
@@ -49,5 +49,19 @@ class AppFixtures extends Fixture
             $manager->persist($entity);
             $manager->flush();
         }
+    }
+
+    private static function recordResponseContext($manager, $tranId, $version = 1.1, $status = 200, $message = 'OK', $createdAt = new \DateTimeImmutable())
+    {
+        $entity = (new ResponseContext)
+            ->setTranId($tranId)
+            ->setVersion($version)
+            ->setMethod($status)
+            ->setUri($message)
+            ->setCreatedAt($createdAt)
+            ;
+
+        $manager->persist($entity);
+        $manager->flush();
     }
 }

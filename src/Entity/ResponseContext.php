@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\HeaderRepository;
+use App\Repository\ResponseContextRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: HeaderRepository::class)]
-class Header
+#[ORM\Entity(repositoryClass: ResponseContextRepository::class)]
+class ResponseContext
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,11 +16,14 @@ class Header
     #[ORM\Column(length: 255)]
     private ?string $tranId = null;
 
-    #[ORM\Column(length: 31)]
-    private ?string $name = null;
+    #[ORM\Column]
+    private ?float $version = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $value = null;
+    #[ORM\Column]
+    private ?int $status = null;
+
+    #[ORM\Column(length: 31)]
+    private ?string $message = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
@@ -42,26 +45,38 @@ class Header
         return $this;
     }
 
-    public function getName(): ?string
+    public function getVersion(): ?float
     {
-        return $this->name;
+        return $this->version;
     }
 
-    public function setName(string $name): self
+    public function setVersion(float $version): self
     {
-        $this->name = $name;
+        $this->version = $version;
 
         return $this;
     }
 
-    public function getValue(): ?string
+    public function getStatus(): ?int
     {
-        return $this->value;
+        return $this->status;
     }
 
-    public function setValue(string $value): self
+    public function setStatus(int $status): self
     {
-        $this->value = $value;
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getMessage(): ?string
+    {
+        return $this->message;
+    }
+
+    public function setMessage(string $message): self
+    {
+        $this->message = $message;
 
         return $this;
     }

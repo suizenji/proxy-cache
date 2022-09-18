@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\Response;
+use App\Entity\RequestContext;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Response>
+ * @extends ServiceEntityRepository<Request>
  *
- * @method Response|null find($id, $lockMode = null, $lockVersion = null)
- * @method Response|null findOneBy(array $criteria, array $orderBy = null)
- * @method Response[]    findAll()
- * @method Response[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Request|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Request|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Request[]    findAll()
+ * @method Request[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ResponseRepository extends ServiceEntityRepository
+class RequestContextRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Response::class);
+        parent::__construct($registry, Request::class);
     }
 
-    public function add(Response $entity, bool $flush = false): void
+    public function add(Request $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class ResponseRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Response $entity, bool $flush = false): void
+    public function remove(Request $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class ResponseRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return Response[] Returns an array of Response objects
+//     * @return Request[] Returns an array of Request objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class ResponseRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Response
+//    public function findOneBySomeField($value): ?Request
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')
