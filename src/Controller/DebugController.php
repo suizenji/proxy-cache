@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use function Symfony\Component\String\u;
+use App\Repository\HttpContextRepository;
+use App\Repository\HttpHeaderRepository;
+use App\Repository\HttpBodyRepository;
 use App\Util\Dns;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -138,5 +141,18 @@ class DebugController extends AbstractController
         $headers['HOST'] = $host;
 
         return new Response($content, $status, $headers);
+    }
+
+    #[Route('/view', name: 'view')]
+    public function view(
+        HttpContextRepository $repoContext,
+        HttpHeaderRepository $repoHeader,
+        HttpBodyRepository $repoBody,
+    ): Response {
+        $requestContexts = $repoContext->findAll();
+
+        return $this->render('debug/view.html.twig', [
+            'request_contexts' => $requestContexts,
+        ]);
     }
 }
