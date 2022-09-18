@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Http;
 use App\Entity\HttpContext;
 use App\Entity\HttpHeader;
 use App\Entity\HttpBody;
@@ -12,28 +13,32 @@ use Doctrine\Persistence\ObjectManager;
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
-    {return;
+    {
         $tranId = '123abc';
         $createdAt = new \DateTimeImmutable();
+
         self::recordRequestContext($manager, $tranId, createdAt: $createdAt);
-        self::recordRequestHeaders($manager, $tranId, [
+        self::recordHeaders($manager, $tranId, Http::TYPE_SEND, [
             'HOST' => 'localhost',
             'User-Agent' => 'Nginx',
-        ], createdAt: $createdAt);
+        ]);
+        self::recordBody($manager, $tranId, Http::TYPE_SEND);
 
         self::recordResponseContext($manager, $tranId, createdAt: $createdAt);
-        self::recordResponseHeaders($manager, $tranId, [
+        self::recordHeaders($manager, $tranId, Http::TYPE_RECV, [
             'Content-Length' => '6',
-        ], createdAt: $createdAt);
+        ]);
+        self::recordBody($manager, $tranId, Http::TYPE_RECV, 'foo');
     }
 
-    private static function recordRequestContext($manager, $tranId, $method = 'GET', $uri = '/', $version = 1.1, $createdAt = new \DateTimeImmutable())
+    private static function recordRequestContext($manager, $tranId, $method = 'GET', $uri = '/', $version = 'HTTP/1.1', $createdAt = new \DateTimeImmutable())
     {
-        $entity = (new RequestContext)
+        $entity = (new HttpContext)
             ->setTranId($tranId)
-            ->setMethod($method)
-            ->setUri($uri)
-            ->setVersion($version)
+            ->setType(Http::TYPE_SEND)
+            ->setF1($method)
+            ->setF2($uri)
+            ->setF3($version)
             ->setCreatedAt($createdAt)
             ;
 
@@ -41,28 +46,14 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private static function recordRequestHeaders($manager, $tranId, $headers = [], $createdAt = new \DateTimeImmutable())
+    private static function recordResponseContext($manager, $tranId, $version = 'HTTP/1.1', $status = 200, $message = 'OK', $createdAt = new \DateTimeImmutable())
     {
-        foreach ($headers as $name => $value) {
-            $entity = (new RequestHeader)
-                    ->setTranId($tranId)
-                    ->setName($name)
-                    ->setValue($value)
-                    ->setCreatedAt($createdAt)
-                    ;
-
-            $manager->persist($entity);
-            $manager->flush();
-        }
-    }
-
-    private static function recordResponseContext($manager, $tranId, $version = 1.1, $status = 200, $message = 'OK', $createdAt = new \DateTimeImmutable())
-    {
-        $entity = (new ResponseContext)
+        $entity = (new HttpContext)
             ->setTranId($tranId)
-            ->setVersion($version)
-            ->setStatus($status)
-            ->setMessage($message)
+            ->setType(Http::TYPE_RECV)
+            ->setF1($version)
+            ->setF2($status)
+            ->setF3($message)
             ->setCreatedAt($createdAt)
             ;
 
@@ -70,18 +61,30 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-    private static function recordResponseHeaders($manager, $tranId, $headers = [], $createdAt = new \DateTimeImmutable())
+    private static function recordHeaders($manager, $tranId, $type, $headers = [])
     {
         foreach ($headers as $name => $value) {
-            $entity = (new ResponseHeader)
+            $entity = (new HttpHeader)
                     ->setTranId($tranId)
+                    ->setType($type)
                     ->setName($name)
                     ->setValue($value)
-                    ->setCreatedAt($createdAt)
                     ;
 
             $manager->persist($entity);
             $manager->flush();
         }
+    }
+
+    private static function recordBody($manager, $tranId, $type, $content = '')
+    {
+        $entity = (new HttpBody)
+                ->setTranId($tranId)
+                ->setType($type)
+                ->setContent($content);
+        ;
+
+        $manager->persist($entity);
+        $manager->flush();
     }
 }

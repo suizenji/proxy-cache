@@ -6,7 +6,7 @@ use App\Repository\HttpContextRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HttpContextRepository::class)]
-class HttpContext
+class HttpContext extends Http
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -6,7 +6,7 @@ use App\Repository\HttpHeaderRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HttpHeaderRepository::class)]
-class HttpHeader
+class HttpHeader extends Http
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
