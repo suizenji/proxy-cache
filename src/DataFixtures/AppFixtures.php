@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\RequestContext;
 use App\Entity\RequestHeader;
 use App\Entity\ResponseContext;
+use App\Entity\ResponseHeader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -21,6 +22,9 @@ class AppFixtures extends Fixture
         ], createdAt: $createdAt);
 
         self::recordResponseContext($manager, $tranId, createdAt: $createdAt);
+        self::recordResponseHeaders($manager, $tranId, [
+            'Content-Length' => '6',
+        ], createdAt: $createdAt);
     }
 
     private static function recordRequestContext($manager, $tranId, $method = 'GET', $uri = '/', $version = 1.1, $createdAt = new \DateTimeImmutable())
@@ -64,5 +68,20 @@ class AppFixtures extends Fixture
 
         $manager->persist($entity);
         $manager->flush();
+    }
+
+    private static function recordResponseHeaders($manager, $tranId, $headers = [], $createdAt = new \DateTimeImmutable())
+    {
+        foreach ($headers as $name => $value) {
+            $entity = (new ResponseHeader)
+                    ->setTranId($tranId)
+                    ->setName($name)
+                    ->setValue($value)
+                    ->setCreatedAt($createdAt)
+                    ;
+
+            $manager->persist($entity);
+            $manager->flush();
+        }
     }
 }
