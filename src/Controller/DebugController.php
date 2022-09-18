@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use function Symfony\Component\String\u;
+use App\Entity\Http;
 use App\Repository\HttpContextRepository;
 use App\Repository\HttpHeaderRepository;
 use App\Repository\HttpBodyRepository;
@@ -149,7 +150,46 @@ class DebugController extends AbstractController
         HttpHeaderRepository $repoHeader,
         HttpBodyRepository $repoBody,
     ): Response {
-        $requestContexts = $repoContext->findAll();
+        $requestContexts = $repoContext->findBy([
+            'type' => 'send'
+        ]);
+
+        // TODO resolve by DB
+        $list = [];
+        foreach ($requestContexts as $requestContext) {
+            $tranId = $requestContext->getTranId();
+
+            $requestHeaders = $repoHeader->findOneBy(
+                ['tranId' => $tranId, 'type' => Http::TYPE_SEND]
+            );
+
+            $requestBody = $repoBody->findOneBy(
+                ['tranId' => $tranId, 'type' => Http::TYPE_SEND]
+            );
+
+            $responseContext = $repoContext->findOneBy(
+                ['tranId' => $tranId, 'type' => Http::TYPE_RECV]
+            );
+
+            $responseHeaders = $repoHeader->findOneBy(
+                ['tranId' => $tranId, 'type' => Http::TYPE_RECV]
+            );
+
+            $responseBody = $repoBody->findOneBy(
+                ['tranId' => $tranId, 'type' => Http::TYPE_RECV]
+            );
+
+            $list[$tranId] = [
+                'request_context' => $requestContext,
+                'request_headers' => $requestHeaders,
+                'request_body' => $requestBody,
+                'response_context' => $responseContext,
+                'response_headers' => $responseHeaders,
+                'response_body' => $responseBody,
+            ];
+        }
+
+        dd($list);
 
         return $this->render('debug/view.html.twig', [
             'request_contexts' => $requestContexts,
