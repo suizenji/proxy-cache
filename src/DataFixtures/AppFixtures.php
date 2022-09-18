@@ -20,6 +20,7 @@ class AppFixtures extends Fixture
             'User-Agent' => 'Nginx',
         ], createdAt: $createdAt);
 
+        self::recordResponseContext($manager, $tranId, createdAt: $createdAt);
     }
 
     private static function recordRequestContext($manager, $tranId, $method = 'GET', $uri = '/', $version = 1.1, $createdAt = new \DateTimeImmutable())
@@ -56,8 +57,8 @@ class AppFixtures extends Fixture
         $entity = (new ResponseContext)
             ->setTranId($tranId)
             ->setVersion($version)
-            ->setMethod($status)
-            ->setUri($message)
+            ->setStatus($status)
+            ->setMessage($message)
             ->setCreatedAt($createdAt)
             ;
 
