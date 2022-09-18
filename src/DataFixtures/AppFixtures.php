@@ -2,17 +2,17 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\RequestContext;
-use App\Entity\RequestHeader;
-use App\Entity\ResponseContext;
-use App\Entity\ResponseHeader;
+use App\Entity\HttpContext;
+use App\Entity\HttpHeader;
+use App\Entity\HttpBody;
+
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
-    {
+    {return;
         $tranId = '123abc';
         $createdAt = new \DateTimeImmutable();
         self::recordRequestContext($manager, $tranId, createdAt: $createdAt);
