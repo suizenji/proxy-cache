@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\BodyRepository;
+use App\Repository\ResponseBodyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BodyRepository::class)]
-class Body
+#[ORM\Entity(repositoryClass: ResponseBodyRepository::class)]
+class ResponseBody
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
