@@ -24,25 +24,27 @@
 {% endblock %}
 
 {% macro doc(cont, heads, body) %}
-    <div>{{ cont.f1 }} {{ cont.f2 }} {{ cont.f3 }}</div>
-    <div>
-	<script>
-	 function toggle(elem) {
-	     if (elem.style.display === "none") {
-		 elem.style.display = "block";
-	     } else {
-		 elem.style.display = "none";
+    {% if cont %}
+	<div>{{ cont.f1 }} {{ cont.f2 }} {{ cont.f3 }}</div>
+	<div>
+	    <script>
+	     function toggle(elem) {
+		 if (elem.style.display === "none") {
+		     elem.style.display = "block";
+		 } else {
+		     elem.style.display = "none";
+		 }
 	     }
-	 }
-	</script>
-	<div onclick="toggle(this.children[0]);toggle(this.children[1]);">
-	    <div>headers</div>
-	    <ul style="display: none;">
-		{% for head in heads %}
-		    <li>{{ head.name }}: {{ head.value }}</li>
-		{% endfor %}
-	    </ul>
+	    </script>
+	    <div onclick="toggle(this.children[0]);toggle(this.children[1]);">
+		<div>headers</div>
+		<ul style="display: none;">
+		    {% for head in heads %}
+			<li>{{ head.name }}: {{ head.value }}</li>
+		    {% endfor %}
+		</ul>
+	    </div>
+	    <textarea>{{ body.content }}</textarea>
 	</div>
-	<textarea>{{ body.content }}</textarea>
-    </div>
+    {% endif %}
 {% endmacro %}
