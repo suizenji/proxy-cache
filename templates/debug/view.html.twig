@@ -1,16 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <ul>
-    {% for key, c in request_contexts %}
-<li>{{ c.f1 }}{{ c.f2 }}{{ c.f3 }}</li>
-    {% endfor %}
-     </ul>
-</div>
+    <table>
+	<thead>
+	    <tr>
+		<th>id</th>
+		<th>request</th>
+		<th>reponse</th>
+	    </tr>
+	</thead>
+	<tbody>
+	    {% for id, c in tran_list %}
+		<tr>
+		    <td>{{ id }}</td>
+		    <td>{{ c.req_cont.f1 }} {{ c.req_cont.f2 }} {{ c.req_cont.f3 }}</td>
+		    <td>{{ c.res_cont.f1 }} {{ c.res_cont.f2 }} {{ c.res_cont.f3 }}</td>
+		</tr>
+	    {% endfor %}
+	</tbody>
+    </table>
 {% endblock %}

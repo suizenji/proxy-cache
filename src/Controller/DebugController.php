@@ -154,8 +154,7 @@ class DebugController extends AbstractController
             'type' => 'send'
         ]);
 
-        // TODO resolve by DB
-        $list = [];
+        $tranList = [];
         foreach ($requestContexts as $requestContext) {
             $tranId = $requestContext->getTranId();
 
@@ -179,20 +178,18 @@ class DebugController extends AbstractController
                 ['tranId' => $tranId, 'type' => Http::TYPE_RECV]
             );
 
-            $list[$tranId] = [
-                'request_context' => $requestContext,
-                'request_headers' => $requestHeaders,
-                'request_body' => $requestBody,
-                'response_context' => $responseContext,
-                'response_headers' => $responseHeaders,
-                'response_body' => $responseBody,
+            $tranList[$tranId] = [
+                'req_cont' => $requestContext,
+                'req_head' => $requestHeaders,
+                'req_body' => $requestBody,
+                'res_cont' => $responseContext,
+                'res_head' => $responseHeaders,
+                'res_body' => $responseBody,
             ];
         }
 
-        dd($list);
-
         return $this->render('debug/view.html.twig', [
-            'request_contexts' => $requestContexts,
+            'tran_list' => $tranList,
         ]);
     }
 }
