@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use function Symfony\Component\String\u;
 use App\Util\Dns;
+use App\Service\Recorder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 class ProxyController extends AbstractController
 {
@@ -17,8 +19,14 @@ class ProxyController extends AbstractController
     // TODO cache
     // TODO headers(encoding)
     #[Route('/proxy', name: 'app_proxy')]
-    public function index(Request $request, HttpClientInterface $client): Response
-    {
+    public function index(
+        Request $request,
+        HttpClientInterface $client,
+        Recorder $recorder,
+    ): Response {
+        $uuid = Uuid::v1()->generate();
+        $recorder->recordRequest($uuid, $request);
+
         $method = $request->getMethod();
 
         $host = $request->getHost();
@@ -29,7 +37,6 @@ class ProxyController extends AbstractController
         $ip = Dns::getA($domain);
         $schemeAndHttpHost = $request->getSchemeAndHttpHost();
         $schemeAndIp = (string) u($schemeAndHttpHost)->replace($domain, $ip);
-#        $schemeAndIp = $request->getScheme() . '://' . $ip;
 
         $path = $request->getPathInfo();
         $query = $request->getQueryString();
@@ -51,6 +58,8 @@ class ProxyController extends AbstractController
             'body' => $request->getContent(),
             'verify_host' => false,
         ]);
+
+        $recorder->recordResponse($uuid, $response);
 
         $content = $response->getContent();
         $status = $response->getStatusCode();
