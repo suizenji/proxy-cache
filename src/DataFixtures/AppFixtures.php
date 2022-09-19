@@ -14,7 +14,8 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $tranId = '123abc';
+        // normal
+        $tranId = 'A001';
         $createdAt = new \DateTimeImmutable();
 
         self::recordContext($manager, $tranId, Http::TYPE_SEND, 'GET', '/', 'HTTP/1.1', $createdAt);
@@ -29,6 +30,23 @@ class AppFixtures extends Fixture
             'Content-Length' => '6',
         ]);
         self::recordBody($manager, $tranId, Http::TYPE_RECV, 'foo');
+
+        // POST
+        $tranId = 'A002';
+        sleep(1);
+        $createdAt = new \DateTimeImmutable();
+
+        self::recordContext($manager, $tranId, Http::TYPE_SEND, 'POST', '/data/post', 'HTTP/1.1', $createdAt);
+        self::recordHeaders($manager, $tranId, Http::TYPE_SEND, [
+            'HOST' => 'localhost',
+            'Content-Type' => 'application/json',
+        ]);
+        self::recordBody($manager, $tranId, Http::TYPE_SEND, '{"key": "value"}');
+
+        self::recordContext($manager, $tranId, Http::TYPE_RECV, 'HTTP/1.1', '404', 'Not Found', $createdAt);
+        self::recordHeaders($manager, $tranId, Http::TYPE_RECV, []);
+        self::recordBody($manager, $tranId, Http::TYPE_RECV);
+
     }
 
     private static function recordContext($manager, $tranId, $type, $f1, $f2, $f3, $createdAt)

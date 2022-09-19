@@ -178,7 +178,9 @@ class DebugController extends AbstractController
                 ['tranId' => $tranId, 'type' => Http::TYPE_RECV]
             );
 
-            $tranList[$tranId] = [
+            $tranList[] = [
+                'id' => $tranId,
+                'time' => $requestContext->getCreatedAt(),
                 'req_cont' => $requestContext,
                 'req_heads' => $requestHeaders,
                 'req_body' => $requestBody,
