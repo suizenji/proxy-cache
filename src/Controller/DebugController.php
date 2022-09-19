@@ -158,7 +158,7 @@ class DebugController extends AbstractController
         foreach ($requestContexts as $requestContext) {
             $tranId = $requestContext->getTranId();
 
-            $requestHeaders = $repoHeader->findOneBy(
+            $requestHeaders = $repoHeader->findBy(
                 ['tranId' => $tranId, 'type' => Http::TYPE_SEND]
             );
 
@@ -170,7 +170,7 @@ class DebugController extends AbstractController
                 ['tranId' => $tranId, 'type' => Http::TYPE_RECV]
             );
 
-            $responseHeaders = $repoHeader->findOneBy(
+            $responseHeaders = $repoHeader->findBy(
                 ['tranId' => $tranId, 'type' => Http::TYPE_RECV]
             );
 
@@ -180,10 +180,10 @@ class DebugController extends AbstractController
 
             $tranList[$tranId] = [
                 'req_cont' => $requestContext,
-                'req_head' => $requestHeaders,
+                'req_heads' => $requestHeaders,
                 'req_body' => $requestBody,
                 'res_cont' => $responseContext,
-                'res_head' => $responseHeaders,
+                'res_heads' => $responseHeaders,
                 'res_body' => $responseBody,
             ];
         }

@@ -13,10 +13,28 @@
 	    {% for id, c in tran_list %}
 		<tr>
 		    <td>{{ id }}</td>
+		    <td>{{ _self.doc(id, c.req_cont, c.req_heads, c.req_body) }}</td>
+		    <td>{{ _self.doc(id, c.res_cont, c.res_heads, c.res_body) }}</td>
+{#
 		    <td>{{ c.req_cont.f1 }} {{ c.req_cont.f2 }} {{ c.req_cont.f3 }}</td>
 		    <td>{{ c.res_cont.f1 }} {{ c.res_cont.f2 }} {{ c.res_cont.f3 }}</td>
+#}
 		</tr>
 	    {% endfor %}
 	</tbody>
     </table>
 {% endblock %}
+
+{% macro doc(id, cont, heads, body) %}
+    <div>{{ cont.f1 }} {{ cont.f2 }} {{ cont.f3 }}</div>
+    <div>
+	<div>
+	    <ul>
+		{% for head in heads %}
+		    <li>{{ head.name }}: {{ head.value }}</li>
+		{% endfor %}
+	    </ul>
+	</div>
+	<div>{{ body.content }}</div>
+    </div>
+{% endmacro %}
