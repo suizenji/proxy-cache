@@ -7,6 +7,7 @@ use App\Entity\Http;
 use App\Repository\HttpContextRepository;
 use App\Repository\HttpHeaderRepository;
 use App\Repository\HttpBodyRepository;
+use App\Service\Recorder;
 use App\Util\Dns;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -14,6 +15,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 
 #[Route('/_debug', name: 'app_debug_')]
 class DebugController extends AbstractController
@@ -86,8 +88,13 @@ class DebugController extends AbstractController
     }
 
     #[Route('/pro', name: 'pro')]
-    public function pro(Request $request, HttpClientInterface $client): Response
-    {
+    public function pro(
+        Request $request,
+        HttpClientInterface $client,
+        Recorder $recorder,
+    ): Response {
+        $recorder->recordRequest('', $request);
+
         $method = $request->getMethod();
 
 #        $host = 'localhost.com:8081';
@@ -125,6 +132,8 @@ class DebugController extends AbstractController
             'verify_host' => false,
         ]);
 
+        $recorder->recordResponse('', $response);
+
         $content = $response->getContent();
         $status = $response->getStatusCode();
         $headers = $response->getHeaders();
@@ -142,6 +151,17 @@ class DebugController extends AbstractController
         $headers['HOST'] = $host;
 
         return new Response($content, $status, $headers);
+    }
+
+    // TODO save service
+    private function saveRequest(Request $request)
+    {
+        $uuid = Uuid::v1();
+    }
+
+    private function saveResponse(ResponseInterface $response)
+    {
+        $uuid = Uuid::v1();
     }
 
     #[Route('/view', name: 'view')]

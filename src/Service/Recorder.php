@@ -8,7 +8,10 @@ use App\Entity\HttpHeader;
 use App\Entity\HttpBody;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
+// TODO protocol version
+// TODO response message
 class Recorder
 {
     public function __construct(
@@ -20,9 +23,18 @@ class Recorder
     {
         $createdAt = new \DateTimeImmutable();
 
-        self::recordContext($this->manager, $tranId, Http::TYPE_SEND, $request->getMethod(), $request->getPathInfo(), 'TODO', $createdAt);
+        self::recordContext($this->manager, $tranId, Http::TYPE_SEND, $request->getMethod(), $request->getPathInfo(), 'HTTP/1.1?', $createdAt);
         self::recordHeaders($this->manager, $tranId, Http::TYPE_SEND, $request->headers->all());
         self::recordBody($this->manager, $tranId, Http::TYPE_SEND, $request->getContent());
+    }
+
+    public function recordResponse($tranId, ResponseInterface $response)
+    {
+        $createdAt = new \DateTimeImmutable();
+
+        self::recordContext($this->manager, $tranId, Http::TYPE_RECV, 'HTTP/1.1?', $response->getStatusCode(), 'OK?', $createdAt);
+        self::recordHeaders($this->manager, $tranId, Http::TYPE_RECV, $response->getHeaders());
+        self::recordBody($this->manager, $tranId, Http::TYPE_RECV, $response->getContent());
     }
 
     public static function recordContext($manager, $tranId, $type, $f1, $f2, $f3, $createdAt)
