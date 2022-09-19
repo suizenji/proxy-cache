@@ -93,7 +93,8 @@ class DebugController extends AbstractController
         HttpClientInterface $client,
         Recorder $recorder,
     ): Response {
-        $recorder->recordRequest('', $request);
+        $uuid = Uuid::v1()->generate();
+        $recorder->recordRequest($uuid, $request);
 
         $method = $request->getMethod();
 
@@ -132,7 +133,7 @@ class DebugController extends AbstractController
             'verify_host' => false,
         ]);
 
-        $recorder->recordResponse('', $response);
+        $recorder->recordResponse($uuid, $response);
 
         $content = $response->getContent();
         $status = $response->getStatusCode();
@@ -151,17 +152,6 @@ class DebugController extends AbstractController
         $headers['HOST'] = $host;
 
         return new Response($content, $status, $headers);
-    }
-
-    // TODO save service
-    private function saveRequest(Request $request)
-    {
-        $uuid = Uuid::v1();
-    }
-
-    private function saveResponse(ResponseInterface $response)
-    {
-        $uuid = Uuid::v1();
     }
 
     #[Route('/view', name: 'view')]
