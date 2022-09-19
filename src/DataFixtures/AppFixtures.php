@@ -39,9 +39,8 @@ class AppFixtures extends Fixture
         self::recordContext($manager, $tranId, Http::TYPE_SEND, 'POST', '/data/post', 'HTTP/1.1', $createdAt);
         self::recordHeaders($manager, $tranId, Http::TYPE_SEND, [
             'HOST' => 'localhost',
-            'Content-Type' => 'application/json',
         ]);
-        self::recordBody($manager, $tranId, Http::TYPE_SEND, '{"key": "value"}');
+        self::recordBody($manager, $tranId, Http::TYPE_SEND, file_get_contents(__FILE__));
 
         self::recordContext($manager, $tranId, Http::TYPE_RECV, 'HTTP/1.1', '404', 'Not Found', $createdAt);
         self::recordHeaders($manager, $tranId, Http::TYPE_RECV, []);
