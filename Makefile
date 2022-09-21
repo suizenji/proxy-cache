@@ -1,4 +1,5 @@
 all: db table data
+	chmod 666 var/*.db
 
 db:
 	./bin/console doctrine:database:drop --force
