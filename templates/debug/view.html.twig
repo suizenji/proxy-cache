@@ -44,7 +44,7 @@
 		    {% endfor %}
 		</ul>
 	    </div>
-	    <textarea>{{ body.content }}</textarea>
+	    <textarea>{{ body ? body.content : "" }}</textarea>
 	</div>
     {% endif %}
 {% endmacro %}
