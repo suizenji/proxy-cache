@@ -25,7 +25,14 @@ class Recorder
 
         self::recordContext($this->manager, $tranId, Http::TYPE_SEND, $request->getMethod(), $request->getPathInfo(), 'HTTP/1.1?', $createdAt);
         self::recordHeaders($this->manager, $tranId, Http::TYPE_SEND, $request->headers->all());
-        self::recordBody($this->manager, $tranId, Http::TYPE_SEND, $request->getContent());
+
+        if ($request->getMethod() === Request::METHOD_GET) {
+            $payload = $request->getQueryString() ?: '';
+        } else {
+            $payload = $request->getContent();
+        }
+
+        self::recordBody($this->manager, $tranId, Http::TYPE_SEND, $payload);
     }
 
     public function recordResponse($tranId, ResponseInterface $response)
