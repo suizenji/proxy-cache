@@ -15,7 +15,6 @@ use Symfony\Component\Uid\Uuid;
 
 class ProxyController extends AbstractController
 {
-    // TODO snoop
     // TODO cache
     // TODO headers(encoding)
     #[Route('/proxy', name: 'app_proxy')]
