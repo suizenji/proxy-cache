@@ -36,15 +36,18 @@
 		 }
 	     }
 	    </script>
-	    <div onclick="toggle(this.children[0]);toggle(this.children[1]);">
-		<div>headers</div>
-		<ul style="display: none;">
+	    <div onclick="toggle(this.nextSibling.nextSibling);">headers</div>
+	    <div style="display: none;">
+		<ul>
 		    {% for head in heads %}
 			<li>{{ head.name }}: {{ head.value }}</li>
 		    {% endfor %}
 		</ul>
 	    </div>
-	    <textarea>{{ body ? body.content : "" }}</textarea>
+	    <div onclick="toggle(this.nextSibling.nextSibling);">body</div>
+	    <div style="display: none;">
+		<textarea>{{ body ? body.content : "" }}</textarea>
+	    </div>
 	</div>
     {% endif %}
 {% endmacro %}
