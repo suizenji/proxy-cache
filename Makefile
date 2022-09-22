@@ -1,5 +1,4 @@
-all: db table data
-	chmod 666 var/*.db
+all: db table data grant
 
 db:
 	./bin/console doctrine:database:drop --force
@@ -10,3 +9,6 @@ table:
 
 data:
 	./bin/console doctrine:fixtures:load -n
+
+grant:
+	-chmod 666 var/*.db
