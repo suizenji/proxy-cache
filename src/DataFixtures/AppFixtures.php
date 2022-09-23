@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\CacheRule;
 use App\Entity\Http;
 use App\Entity\HttpContext;
 use App\Entity\HttpHeader;
@@ -46,5 +47,11 @@ class AppFixtures extends Fixture
         Recorder::recordHeaders($manager, $tranId, Http::TYPE_RECV, []);
         Recorder::recordBody($manager, $tranId, Http::TYPE_RECV);
 
+        // cache
+        $cacheRule = new CacheRule();
+        $cacheRule->setType(CacheRule::TYPE_SCHEME_HOST);
+        $cacheRule->setCond('http://localhost');
+        $manager->persist($cacheRule);
+        $manager->flush();
     }
 }

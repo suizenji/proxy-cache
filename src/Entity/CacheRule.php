@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CacheRuleRepository::class)]
 class CacheRule
 {
+    public const TYPE_SCHEME_HOST = 'scheme_host';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
