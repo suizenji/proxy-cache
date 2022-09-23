@@ -18,7 +18,7 @@ class AppFixtures extends Fixture
         $tranId = 'A001';
         $createdAt = new \DateTimeImmutable();
 
-        Recorder::recordContext($manager, $tranId, Http::TYPE_SEND, 'GET', '/', 'HTTP/1.1', $createdAt);
+        Recorder::recordContext($manager, $tranId, Http::TYPE_SEND, 'GET', 'http://localhost/', 'HTTP/1.1', $createdAt);
         Recorder::recordHeaders($manager, $tranId, Http::TYPE_SEND, [
             'HOST' => ['localhost'],
             'User-Agent' => ['Nginx', 'iPhone'],
@@ -36,7 +36,7 @@ class AppFixtures extends Fixture
         sleep(1);
         $createdAt = new \DateTimeImmutable();
 
-        Recorder::recordContext($manager, $tranId, Http::TYPE_SEND, 'POST', '/data/post', 'HTTP/1.1', $createdAt);
+        Recorder::recordContext($manager, $tranId, Http::TYPE_SEND, 'POST', 'https://localhost/data/post', 'HTTP/1.1', $createdAt);
         Recorder::recordHeaders($manager, $tranId, Http::TYPE_SEND, [
             'HOST' => ['localhost'],
         ]);
