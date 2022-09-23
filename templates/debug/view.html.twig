@@ -25,8 +25,8 @@
 
 {% macro doc(cont, heads, body) %}
     {% if cont %}
-	<div>{{ cont.f1 }} {{ cont.f2 }} {{ cont.f3 }}</div>
-	<div>
+	<div onclick="toggle(this.nextSibling.nextSibling);">{{ cont.f1 }} {{ cont.f2 }} {{ cont.f3 }}</div>
+	<div style="display: none;">
 	    <script>
 	     function toggle(elem) {
 		 if (elem.style.display === "none") {
