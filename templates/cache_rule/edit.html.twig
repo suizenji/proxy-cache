@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CacheRule{% endblock %}
+
+{% block body %}
+    <h1>Edit CacheRule</h1>
+
+    {{ include('cache_rule/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_cache_rule_index') }}">back to list</a>
+
+    {{ include('cache_rule/_delete_form.html.twig') }}
+{% endblock %}

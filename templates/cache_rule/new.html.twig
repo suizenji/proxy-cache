@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CacheRule{% endblock %}
+
+{% block body %}
+    <h1>Create new CacheRule</h1>
+
+    {{ include('cache_rule/_form.html.twig') }}
+
+    <a href="{{ path('app_cache_rule_index') }}">back to list</a>
+{% endblock %}
