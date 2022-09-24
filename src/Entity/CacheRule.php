@@ -21,6 +21,9 @@ class CacheRule
     #[ORM\Column(length: 255)]
     private ?string $cond = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $tranId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -46,6 +49,18 @@ class CacheRule
     public function setCond(string $cond): self
     {
         $this->cond = $cond;
+
+        return $this;
+    }
+
+    public function getTranId(): ?string
+    {
+        return $this->tranId;
+    }
+
+    public function setTranId(string $tranId): self
+    {
+        $this->tranId = $tranId;
 
         return $this;
     }
