@@ -51,6 +51,7 @@ class AppFixtures extends Fixture
         $cacheRule = new CacheRule();
         $cacheRule->setType(CacheRule::TYPE_SCHEME_HOST);
         $cacheRule->setCond('http://localhost');
+        $cacheRule->setTranId('A001');
         $manager->persist($cacheRule);
         $manager->flush();
     }
