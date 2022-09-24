@@ -11,6 +11,7 @@
                 <th>Id</th>
                 <th>Type</th>
                 <th>Cond</th>
+                <th>TranId</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{ cache_rule.id }}</td>
                 <td>{{ cache_rule.type }}</td>
                 <td>{{ cache_rule.cond }}</td>
+                <td>{{ cache_rule.tranId }}</td>
                 <td>
                     <a href="{{ path('app_cache_rule_show', {'id': cache_rule.id}) }}">show</a>
                     <a href="{{ path('app_cache_rule_edit', {'id': cache_rule.id}) }}">edit</a>
@@ -27,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

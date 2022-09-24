@@ -11,7 +11,7 @@ class CacheRuleControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private CacheRuleRepository $repository;
-    private string $path = '/_debug/cache/rule/';
+    private string $path = '/cache/rule/';
 
     protected function setUp(): void
     {
@@ -46,6 +46,7 @@ class CacheRuleControllerTest extends WebTestCase
         $this->client->submitForm('Save', [
             'cache_rule[type]' => 'Testing',
             'cache_rule[cond]' => 'Testing',
+            'cache_rule[tranId]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/cache/rule/');
@@ -59,6 +60,7 @@ class CacheRuleControllerTest extends WebTestCase
         $fixture = new CacheRule();
         $fixture->setType('My Title');
         $fixture->setCond('My Title');
+        $fixture->setTranId('My Title');
 
         $this->repository->add($fixture, true);
 
@@ -76,6 +78,7 @@ class CacheRuleControllerTest extends WebTestCase
         $fixture = new CacheRule();
         $fixture->setType('My Title');
         $fixture->setCond('My Title');
+        $fixture->setTranId('My Title');
 
         $this->repository->add($fixture, true);
 
@@ -84,6 +87,7 @@ class CacheRuleControllerTest extends WebTestCase
         $this->client->submitForm('Update', [
             'cache_rule[type]' => 'Something New',
             'cache_rule[cond]' => 'Something New',
+            'cache_rule[tranId]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/cache/rule/');
@@ -92,6 +96,7 @@ class CacheRuleControllerTest extends WebTestCase
 
         self::assertSame('Something New', $fixture[0]->getType());
         self::assertSame('Something New', $fixture[0]->getCond());
+        self::assertSame('Something New', $fixture[0]->getTranId());
     }
 
     public function testRemove(): void
@@ -103,6 +108,7 @@ class CacheRuleControllerTest extends WebTestCase
         $fixture = new CacheRule();
         $fixture->setType('My Title');
         $fixture->setCond('My Title');
+        $fixture->setTranId('My Title');
 
         $this->repository->add($fixture, true);
 
