@@ -18,9 +18,9 @@ class ProxyControllerTest extends KernelTestCase
     }
 
     public function testIndexCache(): void
-    {return;
-        $response = $this->action('http://localhost/foo/bar');
-        $this->assertEquals(200, $response->getStatusCode());
+    {return; // TODO data fixture
+        // $response = $this->action('https://localhost/foo/bar');
+        // $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('foo', $response->getContent());
     }
 
