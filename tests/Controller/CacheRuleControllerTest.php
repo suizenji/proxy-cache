@@ -11,7 +11,7 @@ class CacheRuleControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private CacheRuleRepository $repository;
-    private string $path = '/cache/rule/';
+    private string $path = '/_debug/cache/rule/';
 
     protected function setUp(): void
     {
