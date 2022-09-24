@@ -16,7 +16,6 @@ use Symfony\Component\Uid\Uuid;
 
 class ProxyController extends AbstractController
 {
-    // TODO cache
     // TODO headers(encoding)
     #[Route('/proxy', name: 'app_proxy')]
     public function index(
@@ -27,6 +26,10 @@ class ProxyController extends AbstractController
     ): Response {
         $uuid = Uuid::v1()->generate();
         $recorder->recordRequest($uuid, $request);
+
+        if ($cacheModerator->shouldCachedResponse($request)) {
+            return $cacheModerator->cachedResponse($request);
+        }
 
         $method = $request->getMethod();
 
