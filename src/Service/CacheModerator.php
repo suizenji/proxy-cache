@@ -29,7 +29,7 @@ class CacheModerator
         foreach ($this->repoRule->findAll() as $rule) {
             $type = $rule->getType();
 
-            if ($type === Entity::TYPE_SCHEME_HOST) {
+            if ($type === CacheRule::TYPE_SCHEME_HOST) {
                 if ($request->getSchemeAndHttpHost() === $rule->getCond()) {
                     return $rule->getTranId();
                 }
@@ -43,12 +43,19 @@ class CacheModerator
     {
         $cond = ['tranId' => $cacheKey, 'type' => Http::TYPE_RECV];
 
-        $context = $this->repoContext->findOneBy($cond);
-        $headers = $this->repoHeader->findBy($cond);
-        $body = $this->repoBody->findOneBy($cond);
+        $contextEntity = $this->repoContext->findOneBy($cond);
+        $headersEntities = $this->repoHeader->findBy($cond);
+        $bodyEntity = $this->repoBody->findOneBy($cond);
 
-        // TODO generate response
+        $status = $contextEntity->getF2();
 
-        return new Response('hello');
+        $headers = [];
+        foreach ($headersEntities as $entity) {
+            $headers[$entity->getName()] = $entity->getValue();
+        }
+
+        $body = $bodyEntity->getContent();
+
+        return new Response($body, $status, $headers);
     }
 }
