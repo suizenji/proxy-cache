@@ -2,14 +2,22 @@
 
 namespace App\Service;
 
+use App\Repository\CacheRuleRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CacheModerator
 {
+    public array $rules;
+
+    public function __construct(CacheRuleRepository $repo)
+    {
+        $this->rules = $repo->findAll();
+    }
+
     public function shouldCachedResponse(Request $request): bool
     {
-        return true;
+        return false;
     }
 
     public function cachedResponse(Request $request): Response
