@@ -2,16 +2,23 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\ProxyController as Controller;
+use App\Service\Recorder;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class ProxyControllerTest extends KernelTestCase
 {
-    public function testSomething(): void
+    public function testIndex(): void
     {
-        $kernel = self::bootKernel();
+        $container = static::getContainer();
+        $controller = $container->get(Controller::class);
+        $request = Request::create('https://www.apple.com/');
+        $client = $container->get(HttpClientInterface::class);
+        $recorder = $container->get(Recorder::class);
+        $response = $controller->index($request, $client, $recorder);
 
-        $this->assertSame('test', $kernel->getEnvironment());
-        // $routerService = static::getContainer()->get('router');
-        // $myCustomService = static::getContainer()->get(CustomService::class);
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }
