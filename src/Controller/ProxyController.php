@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use function Symfony\Component\String\u;
 use App\Util\Dns;
+use App\Service\CacheModerator;
 use App\Service\Recorder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -22,6 +23,7 @@ class ProxyController extends AbstractController
         Request $request,
         HttpClientInterface $client,
         Recorder $recorder,
+        CacheModerator $cacheModerator,
     ): Response {
         $uuid = Uuid::v1()->generate();
         $recorder->recordRequest($uuid, $request);

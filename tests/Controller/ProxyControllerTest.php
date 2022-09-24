@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Controller\ProxyController as Controller;
+use App\Service\CacheModerator;
 use App\Service\Recorder;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +18,8 @@ class ProxyControllerTest extends KernelTestCase
         $request = Request::create('https://www.apple.com/');
         $client = $container->get(HttpClientInterface::class);
         $recorder = $container->get(Recorder::class);
-        $response = $controller->index($request, $client, $recorder);
+        $cacheModerator = $container->get(CacheModerator::class);
+        $response = $controller->index($request, $client, $recorder, $cacheModerator);
 
         $this->assertEquals(200, $response->getStatusCode());
     }
