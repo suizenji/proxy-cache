@@ -11,6 +11,7 @@ class CacheRule
     public const JUDGE_TYPE_SCHEME_HOST = 'scheme_host';
 
     public const RES_TYPE_URL_MATCH = 'url_match';
+    public const RES_TYPE_SCHEME_HOST_MATCH = 'scheme_host_match';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

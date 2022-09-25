@@ -41,9 +41,17 @@ class CacheModerator
 
     public function createResponse(CacheRule $rule, Request $request): Response
     {
-        if ($rule->getResType() === CacheRule::RES_TYPE_URL_MATCH) {
+        $resType = $rule->getResType();
+        if ($resType === CacheRule::RES_TYPE_URL_MATCH) {
             $requestContext = $this->repoContext->findOneBy([
                 'f2' => $request->getSchemeAndHttpHost() . $rule->getResCond(),
+                'type' => Http::TYPE_SEND,
+            ]);
+
+            $tranId = $requestContext->getTranId();
+        } else if ($resType === CacheRule::RES_TYPE_SCHEME_HOST_MATCH) {
+            $requestContext = $this->repoContext->findOneBy([
+                'f2' => $request->getSchemeAndHttpHost() . $request->getRequestUri(),
                 'type' => Http::TYPE_SEND,
             ]);
 
