@@ -23,7 +23,7 @@ class Recorder
     {
         $createdAt = new \DateTimeImmutable();
 
-        $fullUrl = $request->getSchemeAndHttpHost() . $request->getPathInfo();
+        $fullUrl = $request->getSchemeAndHttpHost() . $request->getRequestUri();
 
         self::recordContext($this->manager, $tranId, Http::TYPE_SEND, $request->getMethod(), $fullUrl, 'HTTP/1.1?', $createdAt);
         self::recordHeaders($this->manager, $tranId, Http::TYPE_SEND, $request->headers->all());
