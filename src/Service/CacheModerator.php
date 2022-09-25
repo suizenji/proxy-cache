@@ -24,14 +24,14 @@ class CacheModerator
     ) {
     }
 
-    public function suggestResponse(Request $request): string|bool
+    public function suggestCache(Request $request): CacheRule|bool
     {
         foreach ($this->repoRule->findAll() as $rule) {
-            $type = $rule->getType();
+            $type = $rule->getJudgeType();
 
-            if ($type === CacheRule::TYPE_SCHEME_HOST) {
-                if ($request->getSchemeAndHttpHost() === $rule->getCond()) {
-                    return $rule->getTranId();
+            if ($type === CacheRule::JUDGE_TYPE_SCHEME_HOST) {
+                if ($request->getSchemeAndHttpHost() === $rule->getJudgeCond()) {
+                    return $rule;
                 }
             }
         }
@@ -39,9 +39,20 @@ class CacheModerator
         return false;
     }
 
-    public function createResponse(string $cacheKey): Response
+    public function createResponse(CacheRule $rule, Request $request): Response
     {
-        $cond = ['tranId' => $cacheKey, 'type' => Http::TYPE_RECV];
+        if ($rule->getResType() === CacheRule::RES_TYPE_URL_MATCH) {
+            $requestContext = $this->repoContext->findOneBy([
+                'f2' => $request->getSchemeAndHttpHost() . $rule->getResCond(),
+                'type' => Http::TYPE_SEND,
+            ]);
+
+            $tranId = $requestContext->getTranId();
+        } else {
+            throw new \LogicException('unsupported type');
+        }
+
+        $cond = ['tranId' => $tranId, 'type' => Http::TYPE_RECV];
 
         $contextEntity = $this->repoContext->findOneBy($cond);
         $headersEntities = $this->repoHeader->findBy($cond);

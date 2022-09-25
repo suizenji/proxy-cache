@@ -27,8 +27,8 @@ class ProxyController extends AbstractController
         $uuid = Uuid::v1()->generate();
         $recorder->recordRequest($uuid, $request);
 
-        if ($cacheKey = $cacheModerator->suggestResponse($request)) {
-            return $cacheModerator->createResponse($cacheKey);
+        if ($cacheRule = $cacheModerator->suggestCache($request)) {
+            return $cacheModerator->createResponse($cacheRule, $request);
         }
 
         $method = $request->getMethod();
