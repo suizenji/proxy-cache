@@ -4,15 +4,17 @@
     <table>
 	<thead>
 	    <tr>
-		<th width="15%">id</th>
-		<th width="40%">request</th>
-		<th width="40%">reponse</th>
-		<th width="5%">time</th>
+		<th width="3%">No</th>
+		<th width="22%">id</th>
+		<th width="50%">request</th>
+		<th width="15%">reponse</th>
+		<th width="10%">time</th>
 	    </tr>
 	</thead>
 	<tbody>
-	    {% for c in tran_list %}
+	    {% for i, c in tran_list %}
 		<tr>
+		    <td>{{ i }}</td>
 		    <td>{{ c.id }}</td>
 		    <td>{{ _self.doc(c.req_cont, c.req_heads, c.req_body) }}</td>
 		    <td>{{ _self.doc(c.res_cont, c.res_heads, c.res_body) }}</td>
@@ -25,7 +27,7 @@
 
 {% macro doc(cont, heads, body) %}
     {% if cont %}
-	<div onclick="toggle(this.nextSibling.nextSibling);">{{ cont.f1 }} {{ cont.f2 }} {{ cont.f3 }}</div>
+	<div onclick="toggle(this.nextSibling.nextSibling);">{{ cont.f1 }} {{ cont.f2 }}</div>
 	<div style="display: none;">
 	    <script>
 	     function toggle(elem) {
