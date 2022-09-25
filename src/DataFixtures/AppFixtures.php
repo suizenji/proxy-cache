@@ -49,9 +49,10 @@ class AppFixtures extends Fixture
 
         // cache
         $cacheRule = new CacheRule();
-        $cacheRule->setType(CacheRule::TYPE_SCHEME_HOST);
-        $cacheRule->setCond('https://localhost');
-        $cacheRule->setTranId('A001');
+        $cacheRule->setJudgeType(CacheRule::JUDGE_TYPE_SCHEME_HOST);
+        $cacheRule->setJudgeCond('https://localhost');
+        $cacheRule->setResType(CacheRule::RES_TYPE_URL_MATCH);
+        $cacheRule->setResCond('/');
         $manager->persist($cacheRule);
         $manager->flush();
     }
