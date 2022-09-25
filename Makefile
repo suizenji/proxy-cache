@@ -1,7 +1,7 @@
 APP_ENV := dev
 ARG_ENV := --env=$(APP_ENV)
 
-all: db table grant
+all: db table data grant
 
 db:
 	./bin/console doctrine:database:drop --force $(ARG_ENV)
