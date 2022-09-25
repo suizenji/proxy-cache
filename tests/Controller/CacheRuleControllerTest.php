@@ -11,7 +11,7 @@ class CacheRuleControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private CacheRuleRepository $repository;
-    private string $path = '/_debug/cache/rule/';
+    private string $path = '/cache/rule/';
 
     protected function setUp(): void
     {
@@ -44,9 +44,10 @@ class CacheRuleControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'cache_rule[type]' => 'Testing',
-            'cache_rule[cond]' => 'Testing',
-            'cache_rule[tranId]' => 'Testing',
+            'cache_rule[judgeType]' => 'Testing',
+            'cache_rule[judgeCond]' => 'Testing',
+            'cache_rule[resType]' => 'Testing',
+            'cache_rule[resCond]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/cache/rule/');
@@ -58,9 +59,10 @@ class CacheRuleControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new CacheRule();
-        $fixture->setType('My Title');
-        $fixture->setCond('My Title');
-        $fixture->setTranId('My Title');
+        $fixture->setJudgeType('My Title');
+        $fixture->setJudgeCond('My Title');
+        $fixture->setResType('My Title');
+        $fixture->setResCond('My Title');
 
         $this->repository->add($fixture, true);
 
@@ -76,27 +78,30 @@ class CacheRuleControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new CacheRule();
-        $fixture->setType('My Title');
-        $fixture->setCond('My Title');
-        $fixture->setTranId('My Title');
+        $fixture->setJudgeType('My Title');
+        $fixture->setJudgeCond('My Title');
+        $fixture->setResType('My Title');
+        $fixture->setResCond('My Title');
 
         $this->repository->add($fixture, true);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'cache_rule[type]' => 'Something New',
-            'cache_rule[cond]' => 'Something New',
-            'cache_rule[tranId]' => 'Something New',
+            'cache_rule[judgeType]' => 'Something New',
+            'cache_rule[judgeCond]' => 'Something New',
+            'cache_rule[resType]' => 'Something New',
+            'cache_rule[resCond]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/cache/rule/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getType());
-        self::assertSame('Something New', $fixture[0]->getCond());
-        self::assertSame('Something New', $fixture[0]->getTranId());
+        self::assertSame('Something New', $fixture[0]->getJudgeType());
+        self::assertSame('Something New', $fixture[0]->getJudgeCond());
+        self::assertSame('Something New', $fixture[0]->getResType());
+        self::assertSame('Something New', $fixture[0]->getResCond());
     }
 
     public function testRemove(): void
@@ -106,9 +111,10 @@ class CacheRuleControllerTest extends WebTestCase
         $originalNumObjectsInRepository = count($this->repository->findAll());
 
         $fixture = new CacheRule();
-        $fixture->setType('My Title');
-        $fixture->setCond('My Title');
-        $fixture->setTranId('My Title');
+        $fixture->setJudgeType('My Title');
+        $fixture->setJudgeCond('My Title');
+        $fixture->setResType('My Title');
+        $fixture->setResCond('My Title');
 
         $this->repository->add($fixture, true);
 

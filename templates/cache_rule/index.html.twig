@@ -9,9 +9,10 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Type</th>
-                <th>Cond</th>
-                <th>TranId</th>
+                <th>JudgeType</th>
+                <th>JudgeCond</th>
+                <th>ResType</th>
+                <th>ResCond</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -19,9 +20,10 @@
         {% for cache_rule in cache_rules %}
             <tr>
                 <td>{{ cache_rule.id }}</td>
-                <td>{{ cache_rule.type }}</td>
-                <td>{{ cache_rule.cond }}</td>
-                <td>{{ cache_rule.tranId }}</td>
+                <td>{{ cache_rule.judgeType }}</td>
+                <td>{{ cache_rule.judgeCond }}</td>
+                <td>{{ cache_rule.resType }}</td>
+                <td>{{ cache_rule.resCond }}</td>
                 <td>
                     <a href="{{ path('app_cache_rule_show', {'id': cache_rule.id}) }}">show</a>
                     <a href="{{ path('app_cache_rule_edit', {'id': cache_rule.id}) }}">edit</a>
@@ -29,7 +31,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

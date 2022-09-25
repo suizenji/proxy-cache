@@ -8,59 +8,72 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CacheRuleRepository::class)]
 class CacheRule
 {
-    public const TYPE_SCHEME_HOST = 'scheme_host';
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
+    private ?string $judgeType = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $cond = null;
+    private ?string $judgeCond = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $tranId = null;
+    private ?string $resType = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $resCond = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getJudgeType(): ?string
     {
-        return $this->type;
+        return $this->judgeType;
     }
 
-    public function setType(string $type): self
+    public function setJudgeType(string $judgeType): self
     {
-        $this->type = $type;
+        $this->judgeType = $judgeType;
 
         return $this;
     }
 
-    public function getCond(): ?string
+    public function getJudgeCond(): ?string
     {
-        return $this->cond;
+        return $this->judgeCond;
     }
 
-    public function setCond(string $cond): self
+    public function setJudgeCond(string $judgeCond): self
     {
-        $this->cond = $cond;
+        $this->judgeCond = $judgeCond;
 
         return $this;
     }
 
-    public function getTranId(): ?string
+    public function getResType(): ?string
     {
-        return $this->tranId;
+        return $this->resType;
     }
 
-    public function setTranId(string $tranId): self
+    public function setResType(string $resType): self
     {
-        $this->tranId = $tranId;
+        $this->resType = $resType;
+
+        return $this;
+    }
+
+    public function getResCond(): ?string
+    {
+        return $this->resCond;
+    }
+
+    public function setResCond(string $resCond): self
+    {
+        $this->resCond = $resCond;
 
         return $this;
     }

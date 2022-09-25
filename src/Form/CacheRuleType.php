@@ -12,8 +12,10 @@ class CacheRuleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('type')
-            ->add('cond')
+            ->add('judgeType')
+            ->add('judgeCond')
+            ->add('resType')
+            ->add('resCond')
         ;
     }
 
