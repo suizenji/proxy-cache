@@ -22,6 +22,9 @@ class ProxyControllerTest extends KernelTestCase
         $response = $this->action('https://localhost/foo/bar');
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('foo', $response->getContent());
+
+        $response = $this->action('https://www.localhost.org/data/post');
+        $this->assertEquals(302, $response->getStatusCode());
     }
 
     private function action($uri)
