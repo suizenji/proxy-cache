@@ -4,7 +4,7 @@ ARG_ENV := --env=$(APP_ENV)
 all: db table data grant
 
 db:
-	./bin/console doctrine:database:drop --force $(ARG_ENV)
+	-./bin/console doctrine:database:drop --force $(ARG_ENV)
 	./bin/console doctrine:database:create $(ARG_ENV)
 
 table:
