@@ -8,11 +8,12 @@
 ### Usage
 1. setup
 2. visit web site
-3. TODO edit rules
+3. edit rules (/_debug/rule)
+
+### Tips
+ - /_debug/view
 
 ### TODO
-setup comments
 refactoring
 cs-fixer
-test
 easy-admin
