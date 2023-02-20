@@ -22,3 +22,4 @@ test:
 
 clean:
 	-rm var/*.db
+	-./bin/console doctrine:database:drop --force $(ARG_ENV)
