@@ -25,9 +25,6 @@ services:
       - .:/var/www/symfony_docker
     depends_on:
       - database
-#    networks:
-#      app_net:
-#        ipv4_address: 192.168.0.2
 
   nginx:
     container_name: nginx
@@ -48,11 +45,3 @@ volumes:
 ###> doctrine/doctrine-bundle ###
   db-data:
 ###< doctrine/doctrine-bundle ###
-
-#networks:
-#  app_net:
-#    driver: bridge
-#    ipam:
-#     driver: default
-#     config:
-#       - subnet: 192.168.0.0/24
