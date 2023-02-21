@@ -8,7 +8,7 @@
 ### Usage
 1. setup
 2. visit web site
-3. edit rules (/_debug/rule)
+3. edit rules (/_debug/cache/rule/)
 
 ### Tips
  - /_debug/view
