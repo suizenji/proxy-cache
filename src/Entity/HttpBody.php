@@ -21,7 +21,7 @@ class HttpBody extends Http
     private ?string $type = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    private ?string $content = null;
+    private mixed $content = null;
 
     public function getId(): ?int
     {
@@ -52,12 +52,12 @@ class HttpBody extends Http
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getContent(): mixed
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    public function setContent(mixed $content): self
     {
         $this->content = $content;
 
