@@ -8,7 +8,8 @@ db:
 	./bin/console doctrine:database:create $(ARG_ENV)
 
 table:
-	./bin/console doctrine:schema:create $(ARG_ENV)
+#	./bin/console doctrine:schema:create $(ARG_ENV)
+	./bin/console doctrine:migrations:migrate $(ARG_ENV)
 
 data:
 	./bin/console doctrine:fixtures:load -n $(ARG_ENV)
