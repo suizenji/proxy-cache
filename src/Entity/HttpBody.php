@@ -20,7 +20,7 @@ class HttpBody extends Http
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::BLOB)]
     private ?string $content = null;
 
     public function getId(): ?int
