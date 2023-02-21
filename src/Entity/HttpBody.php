@@ -57,6 +57,15 @@ class HttpBody extends Http
         return $this->content;
     }
 
+    public function getContentStr(): string
+    {
+        if (gettype($this->content) === 'resource') {
+            return stream_get_contents($this->content);
+        }
+
+        return $this->content;
+    }
+
     public function setContent(mixed $content): self
     {
         $this->content = $content;

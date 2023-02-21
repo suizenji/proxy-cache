@@ -73,7 +73,7 @@ class CacheModerator
             $headers[$entity->getName()] = $entity->getValue();
         }
 
-        $body = $bodyEntity->getContent();
+        $body = $bodyEntity->getContentStr();
 
         unset($headers['content-encoding']);
         unset($headers['Content-encoding']);
