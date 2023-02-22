@@ -15,8 +15,6 @@
  - cache rule example: scheme_host -> https://www.apple.com scheme_host_match -> *
 
 ### TODO
-refactoring
-cs-fixer
 easy-admin
 uuid
-prod
+table?
