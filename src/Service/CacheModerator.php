@@ -4,13 +4,10 @@ namespace App\Service;
 
 use App\Entity\CacheRule;
 use App\Entity\Http;
-use App\Entity\HttpContext;
-use App\Entity\HttpHeader;
-use App\Entity\HttpBodyt;
 use App\Repository\CacheRuleRepository;
+use App\Repository\HttpBodyRepository;
 use App\Repository\HttpContextRepository;
 use App\Repository\HttpHeaderRepository;
-use App\Repository\HttpBodyRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,7 +26,7 @@ class CacheModerator
         foreach ($this->repoRule->findAll() as $rule) {
             $type = $rule->getJudgeType();
 
-            if ($type === CacheRule::JUDGE_TYPE_SCHEME_HOST) {
+            if (CacheRule::JUDGE_TYPE_SCHEME_HOST === $type) {
                 if ($request->getSchemeAndHttpHost() === $rule->getJudgeCond()) {
                     return $rule;
                 }
@@ -42,16 +39,16 @@ class CacheModerator
     public function createResponse(CacheRule $rule, Request $request): Response
     {
         $resType = $rule->getResType();
-        if ($resType === CacheRule::RES_TYPE_URL_MATCH) {
+        if (CacheRule::RES_TYPE_URL_MATCH === $resType) {
             $requestContext = $this->repoContext->findOneBy([
-                'f2' => $request->getSchemeAndHttpHost() . $rule->getResCond(),
+                'f2' => $request->getSchemeAndHttpHost().$rule->getResCond(),
                 'type' => Http::TYPE_SEND,
             ]);
 
             $tranId = $requestContext->getTranId();
-        } else if ($resType === CacheRule::RES_TYPE_SCHEME_HOST_MATCH) {
+        } elseif (CacheRule::RES_TYPE_SCHEME_HOST_MATCH === $resType) {
             $requestContext = $this->repoContext->findOneBy([
-                'f2' => $request->getSchemeAndHttpHost() . $request->getRequestUri(),
+                'f2' => $request->getSchemeAndHttpHost().$request->getRequestUri(),
                 'type' => Http::TYPE_SEND,
             ]);
 

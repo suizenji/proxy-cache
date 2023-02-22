@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
-use function Symfony\Component\String\u;
-use App\Util\Dns;
 use App\Service\CacheModerator;
 use App\Service\Recorder;
+use App\Util\Dns;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
+use function Symfony\Component\String\u;
 
 class ProxyController extends AbstractController
 {
@@ -44,7 +45,7 @@ class ProxyController extends AbstractController
 
         $path = $request->getPathInfo();
         $query = $request->getQueryString();
-        $uri = $schemeAndIp . $path . '?' . $query;
+        $uri = $schemeAndIp.$path.'?'.$query;
 
         $headers = $request->server->getHeaders();
         unset($headers['content-length']);

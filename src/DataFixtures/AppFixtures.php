@@ -4,9 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\CacheRule;
 use App\Entity\Http;
-use App\Entity\HttpContext;
-use App\Entity\HttpHeader;
-use App\Entity\HttpBody;
 use App\Service\Recorder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;

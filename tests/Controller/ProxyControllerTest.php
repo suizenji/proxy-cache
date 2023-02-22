@@ -35,6 +35,7 @@ class ProxyControllerTest extends KernelTestCase
         $client = $container->get(HttpClientInterface::class);
         $recorder = $container->get(Recorder::class);
         $cacheModerator = $container->get(CacheModerator::class);
+
         return $controller->index($request, $client, $recorder, $cacheModerator);
     }
 }

@@ -59,7 +59,7 @@ class HttpBody extends Http
 
     public function getContentStr(): string
     {
-        if (gettype($this->content) === 'resource') {
+        if ('resource' === gettype($this->content)) {
             return stream_get_contents($this->content);
         }
 

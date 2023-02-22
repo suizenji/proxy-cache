@@ -2,20 +2,21 @@
 
 namespace App\Controller;
 
-use function Symfony\Component\String\u;
 use App\Entity\Http;
+use App\Repository\HttpBodyRepository;
 use App\Repository\HttpContextRepository;
 use App\Repository\HttpHeaderRepository;
-use App\Repository\HttpBodyRepository;
 use App\Service\Recorder;
 use App\Util\Dns;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
+use function Symfony\Component\String\u;
 
 #[Route('/_debug', name: 'app_debug_')]
 class DebugController extends AbstractController
@@ -62,18 +63,18 @@ class DebugController extends AbstractController
     {
         $method = $request->getMethod();
         $scheme = 'https://';
-#        $scheme = 'http://';
+//        $scheme = 'http://';
         $host = 'google.com';
-#        $host = 'localhost:8081';
-        $url = $scheme . $host;
+//        $host = 'localhost:8081';
+        $url = $scheme.$host;
 
-# http client default hreaders
-#GET / HTTP/1.1\r
-#Connection: close\r
-#Accept: */*\r
-#Accept-Encoding: gzip\r
-#User-Agent: Symfony HttpClient/Native\r
-#Host: localhost:8081\r
+        // http client default hreaders
+        // GET / HTTP/1.1\r
+        // Connection: close\r
+        // Accept: */*\r
+        // Accept-Encoding: gzip\r
+        // User-Agent: Symfony HttpClient/Native\r
+        // Host: localhost:8081\r
 
         $headers = $request->server->getHeaders();
         $headers['HOST'] = $host;
@@ -98,23 +99,23 @@ class DebugController extends AbstractController
 
         $method = $request->getMethod();
 
-#        $host = 'localhost.com:8081';
-#        $host = 'www.apple.com';
+//        $host = 'localhost.com:8081';
+//        $host = 'www.apple.com';
         $host = 'www.apple.com:443';
         $domain = (string) u($host)->replaceMatches('/^(.*)(:[0-9]+)$/', function ($match) {
             return $match[1];
         });
 
         $scheme = 'https://';
-#        $scheme = 'http://';
+//        $scheme = 'http://';
         $ip = Dns::getA($domain);
-#        $ip = '127.0.0.1';
-        $schemeAndHttpHost = $scheme . $host;
+//        $ip = '127.0.0.1';
+        $schemeAndHttpHost = $scheme.$host;
         $schemeAndIp = (string) u($schemeAndHttpHost)->replace($domain, $ip);
 
         $path = '/store';
         $query = $request->getQueryString();
-        $uri = $schemeAndIp . $path . '?' . $query;
+        $uri = $schemeAndIp.$path.'?'.$query;
 
         $headers = $request->server->getHeaders();
         unset($headers['content-length']);
@@ -161,7 +162,7 @@ class DebugController extends AbstractController
         HttpBodyRepository $repoBody,
     ): Response {
         $requestContexts = $repoContext->findBy([
-            'type' => 'send'
+            'type' => 'send',
         ]);
 
         $tranList = [];

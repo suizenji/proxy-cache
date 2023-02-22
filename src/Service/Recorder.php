@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use App\Entity\Http;
+use App\Entity\HttpBody;
 use App\Entity\HttpContext;
 use App\Entity\HttpHeader;
-use App\Entity\HttpBody;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -23,12 +23,12 @@ class Recorder
     {
         $createdAt = new \DateTimeImmutable();
 
-        $fullUrl = $request->getSchemeAndHttpHost() . $request->getRequestUri();
+        $fullUrl = $request->getSchemeAndHttpHost().$request->getRequestUri();
 
         self::recordContext($this->manager, $tranId, Http::TYPE_SEND, $request->getMethod(), $fullUrl, 'HTTP/1.1?', $createdAt);
         self::recordHeaders($this->manager, $tranId, Http::TYPE_SEND, $request->headers->all());
 
-        if ($request->getMethod() === Request::METHOD_GET) {
+        if (Request::METHOD_GET === $request->getMethod()) {
             $payload = $request->getQueryString() ?: '';
         } else {
             $payload = $request->getContent();
@@ -48,14 +48,14 @@ class Recorder
 
     public static function recordContext($manager, $tranId, $type, $f1, $f2, $f3, $createdAt)
     {
-        $entity = (new HttpContext)
+        $entity = (new HttpContext())
             ->setTranId($tranId)
             ->setType($type)
             ->setF1($f1)
             ->setF2($f2)
             ->setF3($f3)
             ->setCreatedAt($createdAt)
-            ;
+        ;
 
         $manager->persist($entity);
         $manager->flush();
@@ -65,12 +65,12 @@ class Recorder
     {
         foreach ($headers as $name => $values) {
             foreach ($values as $value) {
-                $entity = (new HttpHeader)
+                $entity = (new HttpHeader())
                         ->setTranId($tranId)
                         ->setType($type)
                         ->setName($name)
                         ->setValue($value)
-                        ;
+                ;
             }
 
             $manager->persist($entity);
@@ -80,14 +80,12 @@ class Recorder
 
     public static function recordBody($manager, $tranId, $type, $content = '')
     {
-        $entity = (new HttpBody)
+        $entity = (new HttpBody())
                 ->setTranId($tranId)
                 ->setType($type)
                 ->setContent($content);
-        ;
 
         $manager->persist($entity);
         $manager->flush();
     }
-
 }

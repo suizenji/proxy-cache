@@ -14,13 +14,13 @@ class CacheRuleType extends AbstractType
     {
         $builder
             ->add('judgeType', ChoiceType::class, [
-                'choices'  => [
+                'choices' => [
                     CacheRule::JUDGE_TYPE_SCHEME_HOST => CacheRule::JUDGE_TYPE_SCHEME_HOST,
                 ],
             ])
             ->add('judgeCond')
             ->add('resType', ChoiceType::class, [
-                'choices'  => [
+                'choices' => [
                     CacheRule::RES_TYPE_URL_MATCH => CacheRule::RES_TYPE_URL_MATCH,
                     CacheRule::RES_TYPE_SCHEME_HOST_MATCH => CacheRule::RES_TYPE_SCHEME_HOST_MATCH,
                 ],
