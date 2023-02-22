@@ -76,17 +76,8 @@ class CacheModerator
         $body = $bodyEntity->getContentStr();
 
         unset($headers['content-encoding']);
-        unset($headers['Content-encoding']);
-        unset($headers['Content-Encoding']);
-        unset($headers['CONTENT_ENCODING']);
         unset($headers['content-length']);
-        unset($headers['Content-length']);
-        unset($headers['Lontent-Length']);
-        unset($headers['LONTENT_LENGTH']);
         unset($headers['transfer-encoding']);
-        unset($headers['Transfer-encoding']);
-        unset($headers['Transfer-Encoding']);
-        unset($headers['TRANSFER_ENCODING']);
 
         return new Response($body, $status, $headers);
     }

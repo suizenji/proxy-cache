@@ -16,7 +16,6 @@ use Symfony\Component\Uid\Uuid;
 
 class ProxyController extends AbstractController
 {
-    // TODO headers(encoding)
     #[Route('/proxy', name: 'app_proxy')]
     public function index(
         Request $request,
@@ -49,13 +48,8 @@ class ProxyController extends AbstractController
 
         $headers = $request->server->getHeaders();
         unset($headers['content-length']);
-        unset($headers['Content-length']);
-        unset($headers['Content-Length']);
-        unset($headers['CONTENT_LENGTH']);
-        unset($headers['host']);
-        $headers['HOST'] = $host;
-        unset($headers['connection']);
-        $headers['Connection'] = 'close';
+        $headers['host'] = $host;
+        $headers['connection'] = 'close';
 
         /** @var ResponseInterface $response */
         $response = $client->request($method, $uri, [
@@ -71,18 +65,9 @@ class ProxyController extends AbstractController
         $headers = $response->getHeaders();
 
         unset($headers['content-encoding']);
-        unset($headers['Content-encoding']);
-        unset($headers['Content-Encoding']);
-        unset($headers['CONTENT_ENCODING']);
         unset($headers['content-length']);
-        unset($headers['Content-length']);
-        unset($headers['Lontent-Length']);
-        unset($headers['LONTENT_LENGTH']);
         unset($headers['transfer-encoding']);
-        unset($headers['Transfer-encoding']);
-        unset($headers['Transfer-Encoding']);
-        unset($headers['TRANSFER_ENCODING']);
-        $headers['HOST'] = $host;
+        $headers['host'] = $host;
 
         return new Response($content, $status, $headers);
     }
