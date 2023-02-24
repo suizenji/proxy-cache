@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\CacheRule;
+use App\Entity\HttpContext;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -15,12 +16,13 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        return $this->render('@EasyAdmin/page/content.html.twig');
         $routeBuilder = $this->container->get(AdminUrlGenerator::class);
         $url = $routeBuilder->setController(CacheRuleCrudController::class)->generateUrl();
 
         return $this->redirect($url);
 
-        // return parent::index();
+        return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -48,8 +50,7 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-
-        yield MenuItem::linkToDashboard('Cache Rule', 'fas', CacheRule::class);
+        yield MenuItem::linkToCrud('Cache Rule', 'fas fa-list', CacheRule::class);
+        yield MenuItem::linkToCrud('Http Context', 'fas fa-list', HttpContext::class);
     }
 }
