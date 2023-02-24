@@ -8,12 +8,23 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\ChoiceFilter;
 use Symfony\Component\HttpFoundation\Request;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class HttpContextCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
         return HttpContext::class;
+    }
+
+    /** @see https://symfony.com/bundles/EasyAdminBundle/current/actions.html#removing-actions */
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            ->remove(Crud::PAGE_INDEX, Action::NEW)
+            ->disable(Action::NEW, Action::DELETE);
     }
 
     public function configureFilters(Filters $filters): Filters
