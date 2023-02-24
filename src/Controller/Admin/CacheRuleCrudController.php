@@ -25,9 +25,14 @@ class CacheRuleCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        yield ChoiceField::new('judgeType');
+        yield ChoiceField::new('judgeType')->setChoices([
+            CacheRule::JUDGE_TYPE_SCHEME_HOST => CacheRule::JUDGE_TYPE_SCHEME_HOST,
+        ]);
         yield TextField::new('judgeCond');
-        yield ChoiceField::new('resType');
+        yield ChoiceField::new('resType')->setChoices([
+            CacheRule::RES_TYPE_URL_MATCH => CacheRule::RES_TYPE_URL_MATCH,
+            CacheRule::RES_TYPE_SCHEME_HOST_MATCH => CacheRule::RES_TYPE_SCHEME_HOST_MATCH,
+        ]);
         yield TextField::new('resCond');
     }
 }
