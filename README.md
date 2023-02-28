@@ -15,6 +15,4 @@
  - cache rule example: scheme_host -> https://www.apple.com scheme_host_match -> *
 
 ### TODO
-uuid
-pagenation
 body edit
