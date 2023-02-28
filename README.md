@@ -8,13 +8,13 @@
 ### Usage
 1. setup
 2. visit web site
-3. edit rules (/_debug/cache/rule/)
+3. edit rules (/_debug/admin)
 
 ### Tips
  - /_debug/view
  - cache rule example: scheme_host -> https://www.apple.com scheme_host_match -> *
 
 ### TODO
-easy-admin
 uuid
-table?
+pagenation
+body edit
