@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\HttpContext;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,9 +17,23 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class HttpContextRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 20;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, HttpContext::class);
+    }
+
+    public function getPaginator(int $offset): Paginator
+    {
+        $query = $this->createQueryBuilder('c')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery()
+        ;
+
+        return new Paginator($query);
     }
 
     public function add(HttpContext $entity, bool $flush = false): void

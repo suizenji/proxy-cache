@@ -157,16 +157,25 @@ class DebugController extends AbstractController
 
     #[Route('/view', name: 'view')]
     public function view(
+        Request $request,
         HttpContextRepository $repoContext,
         HttpHeaderRepository $repoHeader,
         HttpBodyRepository $repoBody,
     ): Response {
-        $requestContexts = $repoContext->findBy([
-            'type' => 'send',
-        ]);
+        $offset = max(0, $request->query->getInt('offset', 0));
+        $paginator = $repoContext->getPaginator($offset);
+        $pages = $paginator->count() / HttpContextRepository::PAGINATOR_PER_PAGE;
+#        var_dump($paginator->count());
+#        var_dump($pages);
+#        foreach ($paginator as $foo) {}
+
+        // $requestContexts = $repoContext->findBy([
+        //     'type' => 'send',
+        // ]);
 
         $tranList = [];
-        foreach ($requestContexts as $requestContext) {
+        // foreach ($requestContexts as $requestContext) {
+        foreach ($paginator as $requestContext) {
             $tranId = $requestContext->getTranId();
 
             $requestHeaders = $repoHeader->findBy(

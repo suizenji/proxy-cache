@@ -2,6 +2,6 @@
 
 {% block content %}
     {{ render(controller(
-        'App\\Controller\\DebugController::view'
+        'App\\Controller\\DebugController::view', {'request': app.request}
     )) }}
 {% endblock %}
