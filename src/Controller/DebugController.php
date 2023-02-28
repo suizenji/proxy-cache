@@ -162,6 +162,7 @@ class DebugController extends AbstractController
         HttpHeaderRepository $repoHeader,
         HttpBodyRepository $repoBody,
     ): Response {
+        // TODO offset, order
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $repoContext->getPaginator($offset);
         $pages = $paginator->count() / HttpContextRepository::PAGINATOR_PER_PAGE;
